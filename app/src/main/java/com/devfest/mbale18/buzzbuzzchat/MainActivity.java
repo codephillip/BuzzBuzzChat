@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private FirebaseFirestore db;
     private static final String CHAT = "chat";
-    private static final String NAME = "name";
-    private static final String MESSAGE = "message";
     private EditText inputMessageEditView;
     private Button sendButton;
     private ListView listView;
