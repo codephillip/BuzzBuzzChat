@@ -5,9 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -30,18 +32,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String CHAT = "chat";
     private static final String NAME = "name";
     private static final String MESSAGE = "message";
-    private TextView messageTextView;
     private EditText inputMessageEditView;
     private Button sendButton;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        messageTextView = findViewById(R.id.message);
         inputMessageEditView = findViewById(R.id.input_messsage);
         sendButton = findViewById(R.id.send);
+        listView = findViewById(R.id.chats_list);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,18 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayMessagesFromServer(@Nullable QuerySnapshot queryDocumentSnapshots) {
         Log.d(TAG, "displayMessagesFromServer: started");
-        String messages = "";
         List<Chat> chats = queryDocumentSnapshots.toObjects(Chat.class);
-
+        ArrayList<String> messages = new ArrayList<>();
         for (Chat chat : chats) {
-            if (chat != null) {
-                messages += "\n\n#\n" + chat.getName() + " : " + chat.getMessage();
-                Log.d(TAG, "Current data: " + messages);
-            } else {
-                Log.d(TAG, "Current data: null");
-            }
+            Log.d(TAG, "displayMessagesFromServer: "+ chat.getMessage());
+            messages.add(chat.getName() + " : " + chat.getMessage());
         }
-        messageTextView.setText(messages);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void saveDocumentData(String message) {
