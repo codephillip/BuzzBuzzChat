@@ -55,14 +55,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         db = FirebaseFirestore.getInstance();
-
-//        try {
-//            String message = "Helloworld";
-//            saveDocumentData(message);
-//            readDocumentData();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override
@@ -70,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         db.collection(CHAT)
-//                .whereEqualTo("name", "Phillip")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
