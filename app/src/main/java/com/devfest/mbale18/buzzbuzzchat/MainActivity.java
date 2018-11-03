@@ -14,7 +14,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -54,31 +56,32 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        try {
+//        try {
+//            String message = "Helloworld";
 //            saveDocumentData(message);
-            readDocumentData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//            readDocumentData();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-//        db.collection(CHAT)
-////                .whereEqualTo("name", "Phillip")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "listen:error", e);
-//                            return;
-//                        }
-//
-//                        displayMessagesFromServer(queryDocumentSnapshots);
-//                    }
-//                });
+        db.collection(CHAT)
+//                .whereEqualTo("name", "Phillip")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "listen:error", e);
+                            return;
+                        }
+
+                        displayMessagesFromServer(queryDocumentSnapshots);
+                    }
+                });
     }
 
     private void displayMessagesFromServer(@Nullable QuerySnapshot queryDocumentSnapshots) {
