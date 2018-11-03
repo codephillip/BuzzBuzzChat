@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "663040776032",
+    "firebase_url": "https://buzzbuzzchat.firebaseio.com",
+    "project_id": "buzzbuzzchat",
+    "storage_bucket": "buzzbuzzchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663040776032:android:a3e39e2d6a260c38",
+        "android_client_info": {
+          "package_name": "com.devfest.mbale18.buzzbuzzchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663040776032-1j3309moll5gntkh1m6fn721aa79ps9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIQc1M4Qj6ZYyKnfUm7cyMosqP0_feiqk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
