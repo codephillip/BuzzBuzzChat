@@ -17,11 +17,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -78,11 +76,12 @@ public class MainActivity extends AppCompatActivity {
     private void displayMessagesFromServer(@Nullable QuerySnapshot queryDocumentSnapshots) {
         Log.d(TAG, "displayMessagesFromServer: started");
         String messages = "";
-        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-            if (snapshot != null && snapshot.exists()) {
-                Map<String, Object> data = snapshot.getData();
-                Log.d(TAG, "Current data: " + data);
-                messages += "\n#\n" + data.get(NAME) + " : " + data.get(MESSAGE);
+        List<Chat> chats = queryDocumentSnapshots.toObjects(Chat.class);
+
+        for (Chat chat : chats) {
+            if (chat != null) {
+                messages += "\n\n#\n" + chat.getName() + " : " + chat.getMessage();
+                Log.d(TAG, "Current data: " + messages);
             } else {
                 Log.d(TAG, "Current data: null");
             }
@@ -92,12 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveDocumentData(String message) {
         Log.d(TAG, "saveDocumentData: started");
-        Map<String, Object> user = new HashMap<>();
-        user.put("name", "Sharon");
-        user.put("message", message);
+        // TODO integrate authentication and get username
+        Chat chat = new Chat("Sharon", message);
 
         db.collection(CHAT)
-                .add(user)
+                .add(chat)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
